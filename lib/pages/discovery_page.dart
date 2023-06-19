@@ -1,12 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:car_bt_actions/backend/database_manager.dart';
+import 'package:car_bt_actions/models/bt_device.dart';
 
 class DiscoveryPage extends StatefulWidget {
   final bool start;
 
-  const DiscoveryPage({this.start = true});
+  const DiscoveryPage({super.key, this.start = true});
 
   @override
   State<DiscoveryPage> createState() => _DiscoveryPageState();
@@ -97,8 +98,14 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
           return ListTile(
             title: Text(device.name!),
             subtitle: Text(device.address),
-            onTap: () => {
-              // save to db
+            onTap: () {
+              BTDevice btDevice = BTDevice.device(bluetoothDevice: device);
+              DB.instance.saveBTDevice(btDevice);
+
+              SnackBar snackBar = SnackBar(
+                content: Text('Saved ${device.name ?? device.address}'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
           );
         },

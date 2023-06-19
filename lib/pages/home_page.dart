@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:car_bt_actions/backend/database_manager.dart';
+import 'package:car_bt_actions/models/bt_device.dart';
 import 'package:car_bt_actions/pages/discovery_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,8 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
   @override
   void initState() {
     super.initState();
@@ -37,8 +37,18 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-                onPressed: () async => await askForPermissions(),
-                child: const Text('Get Permissions'))
+              onPressed: () async => await askForPermissions(),
+              child: const Text('Get Permissions'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                BTDevice? btDevice = await DB.instance.getBTDevice();
+
+                print(
+                    'Device: ${btDevice == null ? 'Null' : btDevice.address}');
+              },
+              child: const Text('Get Saved Device'),
+            )
           ],
         ),
       ),
