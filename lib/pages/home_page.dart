@@ -40,15 +40,6 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async => await askForPermissions(),
               child: const Text('Get Permissions'),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                BTDevice? btDevice = await DB.instance.getBTDevice();
-
-                print(
-                    'Device: ${btDevice == null ? 'Null' : btDevice.address}');
-              },
-              child: const Text('Get Saved Device'),
-            )
           ],
         ),
       ),

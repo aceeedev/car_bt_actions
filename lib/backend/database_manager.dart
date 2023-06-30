@@ -20,3 +20,12 @@ class DB {
 
   Future<BTDevice?> getBTDevice() async => (await box).get('btDevice');
 }
+
+Future initHive() async {
+  // Initialize Hive
+  await Hive.initFlutter();
+  // Register custom objects in database
+  // To register new TypeAdapters use:
+  //   flutter packages pub run build_runner build
+  Hive.registerAdapter(BTDeviceAdapter());
+}
