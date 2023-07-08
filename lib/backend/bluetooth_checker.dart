@@ -5,9 +5,6 @@ import 'package:car_bt_actions/backend/database_manager.dart';
 import 'package:car_bt_actions/models/bt_device.dart';
 
 Future bluetoothChecker() async {
-  // initialize hive in new background isolate, only read, don't write
-  await initHive();
-
   BTDevice? btDevice = await DB.instance.getBTDevice();
 
   try {

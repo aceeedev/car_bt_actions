@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:car_bt_actions/backend/database_manager.dart';
-import 'package:car_bt_actions/models/bt_device.dart';
+import 'package:car_bt_actions/backend/bluetooth_checker.dart';
 import 'package:car_bt_actions/pages/discovery_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,6 +39,10 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async => await askForPermissions(),
               child: const Text('Get Permissions'),
             ),
+            ElevatedButton(
+              onPressed: () async => await bluetoothChecker(),
+              child: const Text('Bluetooth checker'),
+            ),
           ],
         ),
       ),
@@ -55,6 +58,7 @@ class _HomePageState extends State<HomePage> {
     List<Permission> permissionList = [
       Permission.bluetoothConnect,
       Permission.bluetoothScan,
+      Permission.bluetooth,
     ];
 
     for (Permission permission in permissionList) {

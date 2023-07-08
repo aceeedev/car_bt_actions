@@ -1,5 +1,7 @@
-import 'package:car_bt_actions/models/bt_device.dart';
+// ignore: depend_on_referenced_packages
+//import 'package:path_provider/path_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:car_bt_actions/models/bt_device.dart';
 
 class DB {
   static final DB instance = DB._init();
@@ -10,7 +12,9 @@ class DB {
   Future<Box> get box async {
     if (_box != null) return _box!;
 
-    _box = await Hive.openBox('database');
+    _box = await Hive.openBox(
+      'database', /* path: (await getApplicationDocumentsDirectory()).path */
+    );
 
     return _box!;
   }
