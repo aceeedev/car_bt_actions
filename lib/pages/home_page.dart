@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:car_bt_actions/backend/bluetooth_checker.dart';
+import 'package:car_bt_actions/backend/bluetooth_manager.dart';
 import 'package:car_bt_actions/pages/discovery_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,9 +11,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late BluetoothManager bluetoothManager;
+
   @override
   void initState() {
     super.initState();
+
+    bluetoothManager = BluetoothManager();
+    setupBluetoothManager();
   }
 
   void _incrementCounter() {
@@ -22,6 +27,11 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => const DiscoveryPage(),
       ),
     );
+  }
+
+  Future setupBluetoothManager() async {
+    await bluetoothManager.connect();
+    bluetoothManager.listen();
   }
 
   @override
@@ -38,10 +48,6 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               onPressed: () async => await askForPermissions(),
               child: const Text('Get Permissions'),
-            ),
-            ElevatedButton(
-              onPressed: () async => await bluetoothChecker(),
-              child: const Text('Bluetooth checker'),
             ),
           ],
         ),
