@@ -4,7 +4,7 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 part 'bt_device.g.dart';
 
 @HiveType(typeId: 1)
-class BTDevice {
+class BTDevice extends HiveObject {
   @HiveField(0)
   String? name;
 

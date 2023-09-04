@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 import 'dart:convert';
+import 'package:car_bt_actions/models/bt_button.dart';
+import 'package:car_bt_actions/models/button_action.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:car_bt_actions/backend/database_manager.dart';
 import 'package:car_bt_actions/models/bt_device.dart';
@@ -11,30 +13,70 @@ class BluetoothManager {
   }
 
   BTDevice? btDevice;
-  late BluetoothConnection connection;
+  late BluetoothConnection _connection;
+
+  bool get isConnected => _connection.isConnected;
 
   BluetoothManager._internal() {}
 
-  Future connect() async {
+  Future connect(
+      {int retries = 12,
+      Duration timeBetweenRetries = const Duration(seconds: 10)}) async {
     btDevice = await DB.instance.getBTDevice();
 
-    try {
-      connection = await BluetoothConnection.toAddress(btDevice?.address);
-      print('Device is ${connection.isConnected}');
+    int i = 0;
+    while (i < retries) {
+      try {
+        _connection = await BluetoothConnection.toAddress(btDevice?.address);
+
+        if (_connection.isConnected) {
+          break;
+        }
+      } catch (exception) {
+        print('Cannot connect, exception occured $exception\n\n');
+      }
+
+      await Future.delayed(timeBetweenRetries);
+
+      i++;
+    }
+
+    if (_connection.isConnected) {
       print('Connected to the device');
-    } catch (exception) {
-      print('Cannot connect, exception occured $exception\n\n');
+      _listen();
     }
   }
 
-  void listen() {
-    connection.input?.listen((Uint8List data) {
+  void _listen() {
+    _connection.input?.listen((Uint8List data) {
+      // message is composed of 2 parts: buttonPin_typeOfPress
+      //  ex: 34_0 means button from the pin 34 was pressed and it was a single
+      //  press
       String message = ascii.decode(data);
       print('Data incoming: $message');
+
+      _decodeMessage(message);
     });
   }
 
-  // rest of class as normal, for example:
-  void openFile() {}
-  void writeFile() {}
+  Future _decodeMessage(String message) async {
+    BTButton? btButton = await DB.instance.getButton(message);
+    if (btButton != null) {
+      for (ButtonAction buttonAction in btButton.buttonActions) {
+        switch (buttonAction.actionName) {
+          case 'skipSong':
+            {
+              print('skipSong');
+            }
+            break;
+
+          case 'queueSong':
+            {
+              print('queueSong');
+            }
+            break;
+        }
+      }
+    }
+  }
 }
