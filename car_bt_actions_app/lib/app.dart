@@ -37,6 +37,8 @@ class _AppState extends State<App> {
                   return btDevice != null
                       ? const HomePage()
                       : const SetupPage();
+                } else {
+                  return const SetupPage();
                 }
               }
 
