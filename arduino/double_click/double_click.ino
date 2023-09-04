@@ -34,7 +34,7 @@ void loop() {
     int buttonPin = buttonPins[i];
     int buttonState = digitalRead(buttonPin);
     
-    if (buttonState == HIGH){
+    if (buttonState == HIGH) {
       delay(200);
       Serial.println("Button Pressed ");
       Serial.println(buttonPin);
