@@ -18,7 +18,7 @@ void setup() {
   }
 
   Serial.begin(115200);
-  SerialBT.begin("ESP32test");
+  SerialBT.begin("ESP32test1");
   Serial.println("The device started, now you can pair it with bluetooth!");
 }
 

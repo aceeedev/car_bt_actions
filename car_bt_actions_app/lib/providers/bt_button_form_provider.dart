@@ -7,6 +7,9 @@ class BTButtonFormNotifier extends StateNotifier<BTButton> {
       : super(
             BTButton(buttonID: '', buttonActions: [ButtonAction('null', [])]));
 
+  BTButtonFormNotifier.previousValue({required BTButton btButton})
+      : super(btButton);
+
   void setButtonID(String buttonID) {
     state = state.copyWith(buttonID: buttonID);
   }
@@ -22,9 +25,6 @@ class BTButtonFormNotifier extends StateNotifier<BTButton> {
       buttonActions: [...state.buttonActions, ButtonAction('null', [])]);
 }
 
-// Finally, we are using StateNotifierProvider to allow the UI to interact with
-// our TodosNotifier class.
 final btButtonFormProvider =
-    StateNotifierProvider<BTButtonFormNotifier, BTButton>((ref) {
-  return BTButtonFormNotifier();
-});
+    StateNotifierProvider<BTButtonFormNotifier, BTButton>(
+        (ref) => BTButtonFormNotifier());

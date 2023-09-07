@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:car_bt_actions/backend/bluetooth_manager.dart';
 import 'package:car_bt_actions/backend/database_manager.dart';
 import 'package:car_bt_actions/models/bt_button.dart';
+import 'package:car_bt_actions/pages/setup_page.dart';
 import 'package:car_bt_actions/pages/bt_button_form_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,7 +37,11 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
               onPressed: () => setupBluetoothManager(),
-              icon: const Icon(Icons.bluetooth_connected))
+              icon: const Icon(Icons.bluetooth_connected)),
+          IconButton(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const SetupPage())),
+              icon: const Icon(Icons.settings)),
         ],
       ),
       body: FutureBuilder(
@@ -82,7 +87,16 @@ class _HomePageState extends State<HomePage> {
 
                                             case 'edit':
                                               {
-                                                // TODO: add editing
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            BTButtonFormPage(
+                                                                previousBTButton:
+                                                                    btButton))).then(
+                                                    (_) => setState(
+                                                          () {},
+                                                        ));
                                               }
                                               break;
                                           }
@@ -118,8 +132,12 @@ class _HomePageState extends State<HomePage> {
           }),
           future: DB.instance.getAllButtons()),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const BTButtonFormPage())),
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(
+                builder: (context) => const BTButtonFormPage()))
+            .then((_) => setState(
+                  () {},
+                )),
         child: const Icon(Icons.add),
       ),
     );
