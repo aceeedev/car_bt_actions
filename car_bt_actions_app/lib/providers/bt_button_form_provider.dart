@@ -7,7 +7,7 @@ class BTButtonFormNotifier extends StateNotifier<BTButton> {
       : super(
             BTButton(buttonID: '', buttonActions: [ButtonAction('null', [])]));
 
-  BTButtonFormNotifier.previousValue({required BTButton btButton})
+  BTButtonFormNotifier.fromPreviousValue({required BTButton btButton})
       : super(btButton);
 
   void setButtonID(String buttonID) {

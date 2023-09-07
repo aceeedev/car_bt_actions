@@ -52,6 +52,9 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders += [
+         'appAuthRedirectScheme': 'xyz.andrewcollins.car-bt-actions' // for URI redirecting, the base redirect URI
+        ]
     }
 
     buildTypes {

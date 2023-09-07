@@ -1,8 +1,10 @@
-import 'package:car_bt_actions/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:spotify_sdk/spotify_sdk.dart';
+import 'package:car_bt_actions/secrets.dart' as secrets;
 import 'package:car_bt_actions/backend/bluetooth_manager.dart';
 import 'package:car_bt_actions/pages/discovery_page.dart';
+import 'package:car_bt_actions/pages/home_page.dart';
 
 class SetupPage extends StatefulWidget {
   const SetupPage({super.key});
@@ -41,6 +43,12 @@ class _SetupPageState extends State<SetupPage> {
                 ),
               ),
               child: const Text('Choose Bluetooth Device'),
+            ),
+            ElevatedButton(
+              onPressed: () async => await SpotifySdk.connectToSpotifyRemote(
+                  clientId: secrets.spotifyClientID,
+                  redirectUrl: 'xyz.andrewcollins.car-bt-action://'),
+              child: const Text('Connect to Spotify'),
             ),
             ElevatedButton(
               onPressed: () async =>

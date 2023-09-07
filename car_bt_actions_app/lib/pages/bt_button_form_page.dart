@@ -248,7 +248,7 @@ class _ButtonActionFormState extends ConsumerState<ButtonActionForm> {
                 actionParameterValue
                     .contains('https://open.spotify.com/track/')) {
               actionParameter = actionParameterValue =
-                  Uri.parse(actionParameterValue).pathSegments.first;
+                  'spotify:track:${Uri.parse(actionParameterValue).pathSegments[1]}';
             }
 
             ref.read(btButtonFormProvider.notifier).setButtonAction(

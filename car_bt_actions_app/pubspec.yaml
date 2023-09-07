@@ -40,6 +40,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_riverpod: ^2.4.0
+  spotify_sdk: ^2.3.1
 
 dev_dependencies:
   flutter_test:

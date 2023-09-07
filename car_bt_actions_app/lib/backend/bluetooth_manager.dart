@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 import 'dart:convert';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:spotify_sdk/spotify_sdk.dart';
 import 'package:car_bt_actions/models/bt_button.dart';
 import 'package:car_bt_actions/models/button_action.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:car_bt_actions/backend/database_manager.dart';
 import 'package:car_bt_actions/models/bt_device.dart';
 
@@ -52,6 +53,8 @@ class BluetoothManager {
       // message is composed of 2 parts: buttonPin_typeOfPress
       //  ex: 34_0 means button from the pin 34 was pressed and it was a single
       //  press
+      // note: for now it only accepts single presses as in just in the
+      //  buttonPin
       String message = ascii.decode(data);
       print('Data incoming: $message');
 
@@ -66,16 +69,18 @@ class BluetoothManager {
         switch (buttonAction.actionName) {
           case 'skipSong':
             {
-              print('skipSong');
+              SpotifySdk.skipNext();
             }
             break;
 
           case 'queueSong':
             {
-              print('queueSong');
+              SpotifySdk.queue(spotifyUri: buttonAction.actionParameters.first);
             }
             break;
         }
+
+        await Future.delayed(const Duration(milliseconds: 250));
       }
     }
   }
