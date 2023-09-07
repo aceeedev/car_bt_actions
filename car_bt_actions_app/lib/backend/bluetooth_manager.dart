@@ -17,7 +17,7 @@ class BluetoothManager {
 
   bool get isConnected => _connection.isConnected;
 
-  BluetoothManager._internal() {}
+  BluetoothManager._internal();
 
   Future connect(
       {int retries = 12,

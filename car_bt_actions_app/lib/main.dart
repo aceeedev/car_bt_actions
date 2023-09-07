@@ -1,5 +1,6 @@
-import 'package:car_bt_actions/backend/database_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:car_bt_actions/backend/database_manager.dart';
 import 'package:car_bt_actions/app.dart';
 
 void main() async {
@@ -8,5 +9,5 @@ void main() async {
 
   await initHive();
 
-  runApp(const App());
+  runApp(const ProviderScope(child: App()));
 }

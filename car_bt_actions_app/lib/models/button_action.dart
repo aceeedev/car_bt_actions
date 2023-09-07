@@ -19,8 +19,26 @@ class ButtonAction extends HiveObject {
     _validateAction(actionName, actionParameters);
   }
 
+  ButtonAction copyWith({String? actionName, List<String>? actionParameters}) =>
+      ButtonAction(
+        actionName ?? this.actionName,
+        actionParameters ?? this.actionParameters,
+      );
+
+  ButtonAction copyWithNewParameter(int index, String actionParameter) {
+    List<String> newActionParameters = actionParameters;
+    newActionParameters[index] = actionParameter;
+
+    return ButtonAction(
+      actionName,
+      newActionParameters,
+    );
+  }
+
   void _validateAction(
       String unverifiedActionName, List<String> unverifiedActionParameters) {
+    if (unverifiedActionName == 'null') return; // default value
+
     if (!allowedActions.keys.contains(unverifiedActionName)) {
       throw Exception('$unverifiedActionName is not a valid action name');
     } else {

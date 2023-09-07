@@ -11,4 +11,10 @@ class BTButton extends HiveObject {
   List<ButtonAction> buttonActions;
 
   BTButton({required this.buttonID, required this.buttonActions});
+
+  BTButton copyWith({String? buttonID, List<ButtonAction>? buttonActions}) =>
+      BTButton(
+        buttonID: buttonID ?? this.buttonID,
+        buttonActions: buttonActions ?? this.buttonActions,
+      );
 }
